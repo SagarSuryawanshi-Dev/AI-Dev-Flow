@@ -1,0 +1,28 @@
+{
+  "name": "ai-dev-flow",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SagarSuryawanshi-Dev/AI-Dev-Flow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SagarSuryawanshi-Dev/AI-Dev-Flow/issues"
+  },
+  "homepage": "https://github.com/SagarSuryawanshi-Dev/AI-Dev-Flow#readme",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
