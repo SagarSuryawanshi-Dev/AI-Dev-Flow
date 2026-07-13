@@ -1,14 +1,17 @@
 {
-  "name": "ai-dev-flow/client",
+  "name": "ai-dev-flow",
   "version": "1.0.0",
   "main": "index.js",
-  "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,9 @@
   "homepage": "https://github.com/SagarSuryawanshi-Dev/AI-Dev-Flow#readme",
   "description": "",
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "typescript": "5.9.3",
+    "ts-node": "10.9.2",
+    "ts-node-dev": "2.0.0"
   }
+
 }
