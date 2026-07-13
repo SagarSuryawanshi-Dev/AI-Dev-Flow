@@ -1,12 +1,22 @@
 {
   "name": "@ai-dev-flow/logger",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types":"dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {  
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2"
+  }
 }
