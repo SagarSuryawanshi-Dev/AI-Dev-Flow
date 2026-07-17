@@ -1,12 +1,23 @@
 {
   "name": "@ai-dev-flow/types",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && tsc",
+    "watch": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "Shared TypeScript types",
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "rimraf": "^6.1.3",
+    "typescript": "^7.0.2"
+  }
 }

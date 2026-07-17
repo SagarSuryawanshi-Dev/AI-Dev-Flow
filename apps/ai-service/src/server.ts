@@ -1,7 +1,7 @@
 import app from "./app";
+import { env } from "./config/env.js";
 
-
-const PORT = process.env.PORT || 5001;
+const PORT = env.PORT || 5001;
 
 const ai_service = () => {
     try {

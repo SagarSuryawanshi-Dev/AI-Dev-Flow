@@ -1,5 +1,6 @@
 import express from "express";
 import type { Request, Response } from "express";
+import  {requestLogger}  from "@ai-dev-flow/logger";
 import cors from "cors";
 import dotenv from "dotenv"
 
@@ -8,6 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger("auth-service"));
 
 app.get("/health", (req:Request, res:Response) => {
   res.status(200).json({

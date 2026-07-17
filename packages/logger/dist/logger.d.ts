@@ -1,6 +1,4 @@
-export declare class Logger {
-    info(message: string): void;
-    error(message: string): void;
-    warn(message: string): void;
-}
+import winston from "winston";
+import { LoggerOptions } from "./types";
+export declare function createLogger(options: LoggerOptions): winston.Logger;
 //# sourceMappingURL=logger.d.ts.map
