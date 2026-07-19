@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { loadEnv } from "./loadEnv";
-import { ConfigValidationError } from "./errors";
+import { loadEnv } from "./loadEnv.js";
+import { ConfigValidationError } from "./error.js";
 loadEnv();
 export function createConfig(schema) {
     const result = schema.safeParse(process.env);

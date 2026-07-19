@@ -1,17 +1,23 @@
 import app from "./app";
 
+import { env } from "./config";
+import { logger } from "./config/logger";
 
-const PORT = process.env.PORT || 5003;
+import { connectDatabase } from "@ai-dev-flow/database";
 
-const ai_service = () => {
-    try {
-        app.listen(PORT, () => {
-    console.log(`AI Service is running on ${PORT}`)
-})
-    }catch(error) {
-        console.log(`Error is Ai Service while running on ${PORT}: ${error}`)
-        process.exit(1)
-    }
+async function startServer() {
+  try {
+    await connectDatabase(env.MONGODB_URI);
+
+    app.listen(env.PORT, () => {
+      logger.info(
+        `Auth Service running on port ${env.PORT}`
+      );
+    });
+  } catch (error) {
+    logger.error(error);
+    process.exit(1);
+  }
 }
 
-ai_service();
+startServer();
