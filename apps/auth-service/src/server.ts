@@ -5,13 +5,13 @@ import { logger } from "./config/logger";
 
 import { connectDatabase } from "@ai-dev-flow/database";
 
-async function startServer() {
+async function startServer() { 
   try {
     await connectDatabase(env.MONGODB_URI);
 
     app.listen(env.PORT, () => {
       logger.info(
-        `Auth Service running on port ${env.PORT}`
+        ` Auth Service running on port ${env.PORT}`
       );
     });
   } catch (error) {

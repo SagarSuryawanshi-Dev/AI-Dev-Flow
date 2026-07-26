@@ -9,9 +9,9 @@ export const env = createConfig(
 
     MONGODB_URI: z.string().min(1),
 
-    JWT_SECRET: z.string().min(32),
+    JWT_SECRET: z.string().min(20),
 
-    JWT_REFRESH_SECRET: z.string().min(32),
+    JWT_REFRESH_SECRET: z.string().min(20),
 
     JWT_ACCESS_EXPIRES_IN: z.string(),
 
