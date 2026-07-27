@@ -2,33 +2,23 @@ import winston from "winston";
 
 import { createTransports } from "./transports";
 import { RequestContextManager } from "./context";
-import {
-  DEFAULT_LOG_LEVEL,
-  DEFAULT_SERVICE_NAME,
-} from "./constants";
+import { DEFAULT_LOG_LEVEL, DEFAULT_SERVICE_NAME } from "./constants";
 
 import { LoggerOptions } from "./types";
 
 export function createLogger(options: LoggerOptions) {
   return winston.createLogger({
-    level:
-      options.level ??
-      process.env.LOG_LEVEL ??
-      DEFAULT_LOG_LEVEL,
+    level: options.level ?? process.env.LOG_LEVEL ?? DEFAULT_LOG_LEVEL,
 
     defaultMeta: {
-      service:
-        options.serviceName ??
-        DEFAULT_SERVICE_NAME,
+      service: options.serviceName ?? DEFAULT_SERVICE_NAME,
 
-      environment:
-        process.env.NODE_ENV ?? "development",
+      environment: process.env.NODE_ENV ?? "development",
     },
 
     format: winston.format.combine(
       winston.format((info) => {
-        const context =
-          RequestContextManager.getContext();
+        const context = RequestContextManager.getContext();
 
         if (context) {
           info.requestId = context.requestId;
@@ -44,9 +34,13 @@ export function createLogger(options: LoggerOptions) {
         stack: true,
       }),
 
-      winston.format.json()
+      winston.format.json(),
     ),
 
     transports: createTransports(),
   });
 }
+
+export const logger = createLogger({
+  serviceName: process.env.serviceName ?? "unknown-service",
+});

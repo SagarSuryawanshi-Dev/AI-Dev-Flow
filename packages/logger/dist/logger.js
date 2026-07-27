@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.logger = void 0;
 exports.createLogger = createLogger;
 const winston_1 = __importDefault(require("winston"));
 const transports_1 = require("./transports");
@@ -10,12 +11,9 @@ const context_1 = require("./context");
 const constants_1 = require("./constants");
 function createLogger(options) {
     return winston_1.default.createLogger({
-        level: options.level ??
-            process.env.LOG_LEVEL ??
-            constants_1.DEFAULT_LOG_LEVEL,
+        level: options.level ?? process.env.LOG_LEVEL ?? constants_1.DEFAULT_LOG_LEVEL,
         defaultMeta: {
-            service: options.serviceName ??
-                constants_1.DEFAULT_SERVICE_NAME,
+            service: options.serviceName ?? constants_1.DEFAULT_SERVICE_NAME,
             environment: process.env.NODE_ENV ?? "development",
         },
         format: winston_1.default.format.combine(winston_1.default.format((info) => {
@@ -31,4 +29,7 @@ function createLogger(options) {
         transports: (0, transports_1.createTransports)(),
     });
 }
+exports.logger = createLogger({
+    serviceName: process.env.serviceName ?? "unknown-service",
+});
 //# sourceMappingURL=logger.js.map
