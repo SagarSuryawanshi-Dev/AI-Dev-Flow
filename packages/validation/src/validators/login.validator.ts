@@ -1,0 +1,11 @@
+import { z } from "zod";
+
+import { emailSchema } from "../schema";
+
+export const loginValidator = z.object({
+  email: emailSchema,
+
+  password: z.string().min(1, "Password is required."),
+});
+
+export type LoginInput = z.infer<typeof loginValidator>;
