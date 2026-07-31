@@ -1,4 +1,4 @@
-import { CookieOptions } from "express";
+import { CookieOptions, Response } from "express";
 
 import { env } from "../config";
 
@@ -29,4 +29,22 @@ export function getClearRefreshTokenCookieOptions(): CookieOptions {
 
     path: "/api/v1/auth/refresh",
   };
+}
+
+export function setRefreshTokenCookie(
+  res: Response,
+  refreshToken: string
+) {
+  res.cookie(
+    "refreshToken",
+    refreshToken,
+    getRefreshTokenCookieOptions()
+  );
+}
+
+export function clearRefreshTokenCookie(res: Response) {
+  res.clearCookie(
+    "refreshToken",
+    getClearRefreshTokenCookieOptions()
+  );
 }
