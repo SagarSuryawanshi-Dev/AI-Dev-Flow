@@ -6,4 +6,4 @@ export declare const registerValidator: z.ZodObject<{
     password: z.ZodString;
 }, z.core.$strip>;
 export type RegisterInput = z.infer<typeof registerValidator>;
-//# sourceMappingURL=regsiter.validator.d.ts.map
+//# sourceMappingURL=register.validator.d.ts.map

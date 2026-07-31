@@ -17,4 +17,4 @@ exports.registerValidator = zod_1.z.object({
     email: schema_1.emailSchema,
     password: schema_1.passwordSchema,
 });
-//# sourceMappingURL=regsiter.validator.js.map
+//# sourceMappingURL=register.validator.js.map
