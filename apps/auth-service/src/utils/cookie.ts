@@ -15,7 +15,7 @@ export function getRefreshTokenCookieOptions(): CookieOptions {
 
     maxAge: REFRESH_TOKEN_MAX_AGE,
 
-    path: "/api/v1/auth/refresh",
+    path: "/api/auth/v1/refresh",
   };
 }
 
@@ -27,7 +27,7 @@ export function getClearRefreshTokenCookieOptions(): CookieOptions {
 
     sameSite: "strict",
 
-    path: "/api/v1/auth/refresh",
+    path: "/api/auth/v1/refresh",
   };
 }
 

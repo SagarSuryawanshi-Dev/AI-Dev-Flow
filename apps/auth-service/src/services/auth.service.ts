@@ -10,6 +10,7 @@ import { logger } from "@ai-dev-flow/logger";
 
 
 class AuthService {
+
   async register(data: RegisterInput) {
     logger.info("User registration started.", {
       email: data.email,
@@ -39,29 +40,21 @@ class AuthService {
       role: user.role,
     });
 
-    await authrepository.updateRefreshToken(user.id, refreshToken);
+    await authrepository.updateRefreshToken(user.id,refreshToken);
     await authrepository.updateLastLogin(user.id);
 
-    const userResponse = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
+    logger.info("User registered successfully", {
+      userId: user.id,
       email: user.email,
-      role: user.role,
-      isVerified: user.isVerified,
-      isActive: user.isActive,
-    };
-
+    });
+    
     return {
       user: toUserResponse(user),
       accessToken,
       refreshToken,
       message: "User registered successfully.",
     };
-    logger.info("User registered successfully", {
-      userId: user.id,
-      email: user.email,
-    });
+    
   }
 
   async login(data: LoginInput) {

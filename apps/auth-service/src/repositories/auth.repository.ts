@@ -20,15 +20,15 @@ class AuthRepository {
     return UserModel.findOne({ refreshToken: token }).select("+refreshToken")
   }
 
-  async updateRefreshToken(refreshToken: string, userId: string) {
-    return UserModel.findByIdAndUpdate(userId, { refreshToken }, { new: true });
+  async updateRefreshToken(userId: string,refreshToken: string ) {
+    return UserModel.findByIdAndUpdate(userId, { refreshToken }, { returnDocument: "after" });
   }
 
   async clearRefreshToken(userId: string) {
     return UserModel.findByIdAndUpdate(
       userId,
       { refreshToken: undefined },
-      { new: true },
+      { returnDocument: "after" },
     );
   }
 
@@ -36,7 +36,7 @@ class AuthRepository {
     return UserModel.findByIdAndUpdate(
       userId,
       { lastLogin: new Date() },
-      { new: true },
+      { returnDocument: "after" },
     );
   }
 }

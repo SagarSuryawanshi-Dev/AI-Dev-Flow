@@ -6,25 +6,21 @@ import {
   getClearRefreshTokenCookieOptions,
 } from "../utils/cookie";
 
-interface AuthRequest extends Request {
-  user: {
+type AuthRequest = Request & {
+  user?: {
     userId: string;
   };
-}
+};
 
 class AuthController {
-  async register(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  async register(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await authService.register(req.body);
 
       res.cookie(
         "refreshToken",
         result.refreshToken,
-        getRefreshTokenCookieOptions()
+        getRefreshTokenCookieOptions(),
       );
 
       return res.status(201).json({
@@ -40,18 +36,14 @@ class AuthController {
     }
   }
 
-  async login(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await authService.login(req.body);
 
       res.cookie(
         "refreshToken",
         result.refreshToken,
-        getRefreshTokenCookieOptions()
+        getRefreshTokenCookieOptions(),
       );
 
       return res.status(200).json({
@@ -67,21 +59,22 @@ class AuthController {
     }
   }
 
-  async refreshToken(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  async refreshToken(req: Request, res: Response, next: NextFunction) {
     try {
+      console.log("Cookies:", req.cookies);
+console.log("Refresh Token:", req.cookies.refreshToken);
       const refreshToken = req.cookies.refreshToken;
 
       const result = await authService.refreshToken(refreshToken);
+      
+
 
       res.cookie(
         "refreshToken",
         result.refreshToken,
-        getRefreshTokenCookieOptions()
+        getRefreshTokenCookieOptions(),
       );
+    
 
       return res.status(200).json({
         success: true,
@@ -95,18 +88,16 @@ class AuthController {
     }
   }
 
-  async logout(
-    req: AuthRequest,
-    res: Response,
-    next: NextFunction
-  ) {
+  async logout(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      await authService.logout(req.user.userId);
+      const userId = req.user?.userId;
+      if (!userId) {
+        return next(new Error("Unauthorized"));
+      }
 
-      res.clearCookie(
-        "refreshToken",
-        getClearRefreshTokenCookieOptions()
-      );
+      await authService.logout(userId);
+
+      res.clearCookie("refreshToken", getClearRefreshTokenCookieOptions());
 
       return res.status(200).json({
         success: true,
@@ -117,13 +108,14 @@ class AuthController {
     }
   }
 
-  async getProfile(
-    req: AuthRequest,
-    res: Response,
-    next: NextFunction
-  ) {
+  async getProfile(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      const result = await authService.getProfile(req.user.userId);
+      const userId = req.user?.userId;
+      if (!userId) {
+        return next(new Error("Unauthorized"));
+      }
+
+      const result = await authService.getProfile(userId);
 
       return res.status(200).json({
         success: true,

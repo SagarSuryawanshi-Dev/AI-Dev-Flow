@@ -1,43 +1,23 @@
 import { Router } from "express";
 
 import { authController } from "../controllers/auth.controller";
-import {
-  registerValidator,
-  loginValidator,
-} from "@ai-dev-flow/validation";
-import { authenticate } from "../middleware/validate.middleware";
+import { authenticate } from "../middleware/auth.middleware"
+
+
+import {validate,registerValidator,loginValidator} from "@ai-dev-flow/validation";
 
 const router = Router();
 
 // Public Routes
-router.post(
-  "/register",
-  registerValidator,
-  authController.register
-);
+router.post("/register",validate(registerValidator),authController.register);
 
-router.post(
-  "/login",
-  loginValidator,
-  authController.login
-);
+router.post("/login",validate(loginValidator),authController.login);
 
-router.post(
-  "/refresh",
-  authController.refreshToken
-);
+router.post("/refresh",authController.refreshToken);
 
 // Protected Routes
-router.post(
-  "/logout",
-  authenticate,
-  authController.logout
-);
+router.post("/logout",authenticate,authController.logout);
 
-router.get(
-  "/me",
-  authenticate,
-  authController.getProfile
-);
+router.get("/me",authenticate,authController.getProfile);
 
 export default router;
