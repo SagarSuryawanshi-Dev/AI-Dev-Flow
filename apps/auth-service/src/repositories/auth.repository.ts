@@ -16,12 +16,16 @@ class AuthRepository {
     return UserModel.findById(userId).select("+refreshToken +password");
   }
 
-  async findByRefreshToken(token:string) {
-    return UserModel.findOne({ refreshToken: token }).select("+refreshToken")
+  async findByRefreshToken(token: string) {
+    return UserModel.findOne({ refreshToken: token }).select("+refreshToken");
   }
 
-  async updateRefreshToken(userId: string,refreshToken: string ) {
-    return UserModel.findByIdAndUpdate(userId, { refreshToken }, { returnDocument: "after" });
+  async updateRefreshToken(userId: string, refreshToken: string) {
+    return UserModel.findByIdAndUpdate(
+      userId,
+      { refreshToken },
+      { returnDocument: "after" },
+    );
   }
 
   async clearRefreshToken(userId: string) {
@@ -39,6 +43,9 @@ class AuthRepository {
       { returnDocument: "after" },
     );
   }
+
+  async updatePassword(userId: string,password: string){
+  return UserModel.findByIdAndUpdate(userId,{password,},{returnDocument: "after",})}
 }
 
 export const authrepository = new AuthRepository();

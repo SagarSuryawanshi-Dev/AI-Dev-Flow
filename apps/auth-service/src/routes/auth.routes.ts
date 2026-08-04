@@ -4,7 +4,7 @@ import { authController } from "../controllers/auth.controller";
 import { authenticate } from "../middleware/auth.middleware"
 
 
-import {validate,registerValidator,loginValidator} from "@ai-dev-flow/validation";
+import {validate,registerValidator,loginValidator,changePasswordValidator} from "@ai-dev-flow/validation";
 
 const router = Router();
 
@@ -19,5 +19,8 @@ router.post("/refresh",authController.refreshToken);
 router.post("/logout",authenticate,authController.logout);
 
 router.get("/me",authenticate,authController.getProfile);
+
+// password Routes
+router.post("/change-password",authenticate,validate(changePasswordValidator),authController.changePassword);
 
 export default router;

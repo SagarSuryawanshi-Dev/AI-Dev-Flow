@@ -62,19 +62,16 @@ class AuthController {
   async refreshToken(req: Request, res: Response, next: NextFunction) {
     try {
       console.log("Cookies:", req.cookies);
-console.log("Refresh Token:", req.cookies.refreshToken);
+      console.log("Refresh Token:", req.cookies.refreshToken);
       const refreshToken = req.cookies.refreshToken;
 
       const result = await authService.refreshToken(refreshToken);
-      
-
 
       res.cookie(
         "refreshToken",
         result.refreshToken,
         getRefreshTokenCookieOptions(),
       );
-    
 
       return res.status(200).json({
         success: true,
@@ -120,6 +117,23 @@ console.log("Refresh Token:", req.cookies.refreshToken);
       return res.status(200).json({
         success: true,
         data: result.user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async changePassword(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await authService.changePassword(
+        req.user.userId,
+        req.body,
+      );
+
+      res.clearCookie("refreshToken", getClearRefreshTokenCookieOptions());
+
+      return res.status(200).json({
+        success: true,
+        message: result.message,
       });
     } catch (error) {
       next(error);

@@ -18,4 +18,5 @@ __exportStar(require("./register.validator"), exports);
 __exportStar(require("./login.validator"), exports);
 __exportStar(require("./create-project.validator"), exports);
 __exportStar(require("./update-project.validator"), exports);
+__exportStar(require("./change-password.validator"), exports);
 //# sourceMappingURL=index.js.map

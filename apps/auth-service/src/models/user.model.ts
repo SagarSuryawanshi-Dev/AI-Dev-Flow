@@ -10,6 +10,10 @@ export interface IUser extends Document {
   isActive: boolean;
   refreshToken?: string;
   lastLogin?: Date;
+  emailVerificationToken?: string;
+  emailVerificationExpires?: Date;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -76,6 +80,22 @@ const UserSchema = new Schema<IUser>(
       type: Date,
     },
     // track when the user last authenticated.
+
+    emailVerificationToken: {
+      type: String,
+    },
+
+    emailVerificationExpires: {
+      type: Date,
+    },
+
+    passwordResetToken: {
+      type: String,
+    },
+
+    passwordResetExpires: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

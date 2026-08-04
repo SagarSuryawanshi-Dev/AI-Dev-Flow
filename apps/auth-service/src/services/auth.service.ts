@@ -1,16 +1,20 @@
 import { authrepository } from "../repositories/auth.repository";
-import { hashPassword } from "../utils/password";
-import { generateAccessToken, generateRefreshToken,verifyRefreshToken } from "../utils/jwt";
-import { comparePassword } from "../utils/password";
+import { hashPassword, comparePassword } from "../utils/password";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from "../utils/jwt";
 import { ConflictError, NotFoundError, UnauthorizedError } from "../errors";
 import { toUserResponse } from "../mappers/user.mapper";
-import { RegisterInput, LoginInput } from "@ai-dev-flow/validation";
+import {
+  RegisterInput,
+  LoginInput,
+  ChangePasswordInput,
+} from "@ai-dev-flow/validation";
 import { logger } from "@ai-dev-flow/logger";
 
-
-
 class AuthService {
-
   async register(data: RegisterInput) {
     logger.info("User registration started.", {
       email: data.email,
@@ -40,21 +44,20 @@ class AuthService {
       role: user.role,
     });
 
-    await authrepository.updateRefreshToken(user.id,refreshToken);
+    await authrepository.updateRefreshToken(user.id, refreshToken);
     await authrepository.updateLastLogin(user.id);
 
     logger.info("User registered successfully", {
       userId: user.id,
       email: user.email,
     });
-    
+
     return {
       user: toUserResponse(user),
       accessToken,
       refreshToken,
       message: "User registered successfully.",
     };
-    
   }
 
   async login(data: LoginInput) {
@@ -104,93 +107,116 @@ class AuthService {
     };
   }
 
-  async refreshToken(token:string) {
-    logger.info("Refreshing aceess token")
+  async refreshToken(token: string) {
+    logger.info("Refreshing aceess token");
 
-    if(!token) {
-        throw new UnauthorizedError("Refresh token is required.")
+    if (!token) {
+      throw new UnauthorizedError("Refresh token is required.");
     }
-    const payload = verifyRefreshToken(token)
-    const user = await authrepository.findById(payload.userId)
-    if(!user) {
-        throw new UnauthorizedError("Inavalid refresh token")
+    const payload = verifyRefreshToken(token);
+    const user = await authrepository.findById(payload.userId);
+    if (!user) {
+      throw new UnauthorizedError("Inavalid refresh token");
     }
 
-    if(user.refreshToken !== token) {
-        throw new UnauthorizedError("Invalid refresh token")
+    if (user.refreshToken !== token) {
+      throw new UnauthorizedError("Invalid refresh token");
     }
 
     const accessToken = generateAccessToken({
-        userId:user.id,
-        email:user.email,
-        role:user.role
-    })
-
-    const newRefreshToken = generateRefreshToken({
-        userId:user.id,
-        email:user.email,
-        role:user.role
-    })
-
-    await authrepository.updateRefreshToken(user.id,newRefreshToken)
-
-    logger.info("Refresh token rotate successfully,",{
-        userId:user.id
-    })
-
-    return {
-        user:toUserResponse(user),
-        accessToken,
-        refreshToken:newRefreshToken,
-        message:"Token refresh Successfully."
-    }
-
-  }
-
-  async logout(userId:string) {
-    logger.info("User logout started.",{
-        userId
+      userId: user.id,
+      email: user.email,
+      role: user.role,
     });
 
-    const user = await authrepository.findById(userId)
+    const newRefreshToken = generateRefreshToken({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    });
 
-    if(!user){
-        logger.warn("Logout failed,User not found", {
-            userId
-        })
+    await authrepository.updateRefreshToken(user.id, newRefreshToken);
 
-        throw new NotFoundError("User Not Found")
-    }
-    await authrepository.clearRefreshToken(userId);
-    logger.info("User logout Successfully",{
-        userId
-    })
-
-    return{
-        message:"Logout Successfully"
-    }
-  }
-
-  async getProfile(userId:string){
-    logger.info("Fetching user profile"),{userId}
-
-    const user = await authrepository.findById(userId)
-
-    if(!user){
-        logger.warn("Profile fetch failed,User not found",{userId});
-    throw new NotFoundError("User not found")
-    }
-
-    logger.info("User profile fetched successfully.",{userId})
+    logger.info("Refresh token rotate successfully,", {
+      userId: user.id,
+    });
 
     return {
-        user:toUserResponse(user),
-        message:"Profile Fetched"
-    }
-
+      user: toUserResponse(user),
+      accessToken,
+      refreshToken: newRefreshToken,
+      message: "Token refresh Successfully.",
+    };
   }
 
+  async logout(userId: string) {
+    logger.info("User logout started.", {
+      userId,
+    });
 
+    const user = await authrepository.findById(userId);
+
+    if (!user) {
+      logger.warn("Logout failed,User not found", {
+        userId,
+      });
+
+      throw new NotFoundError("User Not Found");
+    }
+    await authrepository.clearRefreshToken(userId);
+    logger.info("User logout Successfully", {
+      userId,
+    });
+
+    return {
+      message: "Logout Successfully",
+    };
+  }
+
+  async getProfile(userId: string) {
+    (logger.info("Fetching user profile"), { userId });
+
+    const user = await authrepository.findById(userId);
+
+    if (!user) {
+      logger.warn("Profile fetch failed,User not found", { userId });
+      throw new NotFoundError("User not found");
+    }
+
+    logger.info("User profile fetched successfully.", { userId });
+
+    return {
+      user: toUserResponse(user),
+      message: "Profile Fetched",
+    };
+  }
+
+  async changePassword(userId: string, data: ChangePasswordInput) {
+    const user = await authrepository.findById(userId);
+
+    if (!user) {
+      throw new NotFoundError("User not found.");
+    }
+
+    const isPasswordValid = await comparePassword(
+      data.currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedError("Current password is incorrect.");
+    }
+
+    const hashedPassword = await hashPassword(data.newPassword);
+
+    await authrepository.updatePassword(userId, hashedPassword);
+
+    await authrepository.clearRefreshToken(userId);
+
+    return {
+      message: "Password changed successfully. Please login again.",
+    };
+  }
 }
 
 export const authService = new AuthService();
