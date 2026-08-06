@@ -1,18 +1,24 @@
 import express from "express";
-import type { Request, Response } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
-
-dotenv.config();
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
-app.get("/health", (req: Request, res: Response) => {
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+
+app.use(cors());
+
+app.use(helmet());
+
+app.get("/health", (req, res) => {
   res.status(200).json({
-    message: "API gateway is Healthy",
+    status: "ok",
+    service: "api-gateway",
   });
 });
 

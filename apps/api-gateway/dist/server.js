@@ -4,17 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
-const PORT = process.env.PORT || 5002;
-const api_gateway = () => {
+const config_1 = require("./config");
+const logger_1 = require("@ai-dev-flow/logger");
+async function startServer() {
     try {
-        app_1.default.listen(PORT, () => {
-            console.log(`API Gateway is running on ${PORT}`);
+        app_1.default.listen(config_1.env.PORT, () => {
+            logger_1.logger.info(`API Gateway running on port ${config_1.env.PORT}`);
         });
     }
     catch (error) {
-        console.log(`Error is API Gateway while running on ${PORT}: ${error}`);
+        logger_1.logger.error(error);
         process.exit(1);
     }
-};
-api_gateway();
+}
+startServer();
 //# sourceMappingURL=server.js.map

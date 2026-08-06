@@ -1,17 +1,20 @@
 import app from "./app";
 
+import { env } from "./config";
 
-const PORT = process.env.PORT || 5002;
+import { logger } from "@ai-dev-flow/logger";
 
-const api_gateway = () => {
-    try {
-        app.listen(PORT, () => {
-    console.log(`API Gateway is running on ${PORT}`)
-})
-    }catch(error) {
-        console.log(`Error is API Gateway while running on ${PORT}: ${error}`)
-        process.exit(1)
-    }
+async function startServer() {
+  try {
+    app.listen(env.PORT, () => {
+      logger.info(
+        `API Gateway running on port ${env.PORT}`,
+      );
+    });
+  } catch (error) {
+    logger.error(error);
+    process.exit(1);
+  }
 }
 
-api_gateway();
+startServer();
