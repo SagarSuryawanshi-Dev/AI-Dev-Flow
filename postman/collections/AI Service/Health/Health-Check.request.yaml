@@ -1,0 +1,5 @@
+$kind: http-request
+name: Health Check
+method: GET
+url: '{{aiServiceUrl}}/health'
+description: Check if AI Service is running

@@ -1,0 +1,8 @@
+$kind: http-request
+name: Logout
+method: POST
+url: "{{authServiceUrl}}/api/auth/v1/logout"
+order: 5000
+description: Logout user and clear refresh token.
+headers:
+  Authorization: Bearer {{accessToken}}

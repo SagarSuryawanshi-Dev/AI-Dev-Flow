@@ -1,0 +1,15 @@
+$kind: http-request
+name: Login
+method: POST
+url: "{{authServiceUrl}}/api/auth/v1/login"
+order: 2000
+description: Login with email and password.
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "person3@example.com",
+      "password": "NewPassword@3"
+    }

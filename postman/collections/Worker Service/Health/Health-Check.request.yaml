@@ -1,0 +1,5 @@
+$kind: http-request
+name: Health Check
+method: GET
+url: '{{workerServiceUrl}}/health'
+description: Check if Worker Service is running

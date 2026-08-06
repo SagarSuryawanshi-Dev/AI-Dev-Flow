@@ -1,0 +1,6 @@
+$kind: collection
+name: Worker Service
+description: Worker Service collection for AI-Dev-Flow
+variables:
+  - key: workerServiceUrl
+    value: 'http://localhost:3004'

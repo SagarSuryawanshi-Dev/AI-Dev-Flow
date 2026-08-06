@@ -1,0 +1,5 @@
+$kind: http-request
+name: Health Check
+method: GET
+url: '{{projectServiceUrl}}/health'
+description: Check if Project Service is running

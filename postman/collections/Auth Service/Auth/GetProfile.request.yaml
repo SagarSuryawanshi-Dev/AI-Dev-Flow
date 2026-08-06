@@ -1,0 +1,12 @@
+$kind: http-request
+name: GetProfile
+url: "{{authServiceUrl}}/api/auth/v1/me"
+method: GET
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: ""
+order: 4210521894027588

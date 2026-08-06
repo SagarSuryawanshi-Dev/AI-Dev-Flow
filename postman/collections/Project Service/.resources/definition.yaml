@@ -1,0 +1,6 @@
+$kind: collection
+name: Project Service
+description: Project Service collection for AI-Dev-Flow
+variables:
+  - key: projectServiceUrl
+    value: 'http://localhost:3003'

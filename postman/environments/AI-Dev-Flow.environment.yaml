@@ -1,0 +1,31 @@
+$schema: 'https://schema.getpostman.com/json/collection/v2.1.0/environment.json'
+name: AI-Dev-Flow
+variable:
+  - key: authServiceUrl
+    value: 'http://localhost:3001'
+    type: string
+    enabled: true
+  - key: apiGatewayUrl
+    value: 'http://localhost:3000'
+    type: string
+    enabled: true
+  - key: aiServiceUrl
+    value: 'http://localhost:3002'
+    type: string
+    enabled: true
+  - key: projectServiceUrl
+    value: 'http://localhost:3003'
+    type: string
+    enabled: true
+  - key: workerServiceUrl
+    value: 'http://localhost:3004'
+    type: string
+    enabled: true
+  - key: accessToken
+    value: ''
+    type: string
+    enabled: true
+  - key: refreshToken
+    value: ''
+    type: string
+    enabled: true

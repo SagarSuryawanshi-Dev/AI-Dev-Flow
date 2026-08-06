@@ -1,0 +1,6 @@
+$kind: http-request
+name: Health Check
+method: GET
+url: "{{authServiceUrl}}/health"
+order: 1000
+description: Check if Auth Service is running

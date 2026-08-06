@@ -1,0 +1,18 @@
+$kind: http-request
+name: Register
+method: POST
+url: "{{authServiceUrl}}/api/auth/v1/register"
+order: 1000
+description: Register a new user. Returns accessToken and refreshToken on success.
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "firstName": "Person",
+      "lastName": "Four",
+      "email": "person4@example.com",
+      "password": "Password@4",
+      "confirmPassword": "Password@4"
+    }
