@@ -23,4 +23,5 @@ router.get("/me",authenticate,authController.getProfile);
 // password Routes
 router.post("/change-password",authenticate,validate(changePasswordValidator),authController.changePassword);
 
+
 export default router;

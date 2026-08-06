@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { authService } from "../services/auth.service";
-import {
-  getRefreshTokenCookieOptions,
+import {getRefreshTokenCookieOptions,
   getClearRefreshTokenCookieOptions,
 } from "../utils/cookie";
 
@@ -139,6 +138,7 @@ class AuthController {
       next(error);
     }
   }
+
 }
 
 export const authController = new AuthController();

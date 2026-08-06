@@ -46,6 +46,9 @@ class AuthRepository {
 
   async updatePassword(userId: string,password: string){
   return UserModel.findByIdAndUpdate(userId,{password,},{returnDocument: "after",})}
+
+  
 }
+
 
 export const authrepository = new AuthRepository();

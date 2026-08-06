@@ -1,18 +1,11 @@
 import { authrepository } from "../repositories/auth.repository";
 import { hashPassword, comparePassword } from "../utils/password";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken,
-} from "../utils/jwt";
-import { ConflictError, NotFoundError, UnauthorizedError } from "../errors";
+import { generateAccessToken ,generateRefreshToken, verifyRefreshToken } from "../utils/jwt";
+import { ConflictError, NotFoundError, UnauthorizedError,BadRequestError } from "../errors";
 import { toUserResponse } from "../mappers/user.mapper";
-import {
-  RegisterInput,
-  LoginInput,
-  ChangePasswordInput,
-} from "@ai-dev-flow/validation";
+import {  RegisterInput,  LoginInput, ChangePasswordInput,} from "@ai-dev-flow/validation";
 import { logger } from "@ai-dev-flow/logger";
+import { env } from "../config";
 
 class AuthService {
   async register(data: RegisterInput) {
@@ -51,6 +44,7 @@ class AuthService {
       userId: user.id,
       email: user.email,
     });
+
 
     return {
       user: toUserResponse(user),
@@ -217,6 +211,7 @@ class AuthService {
       message: "Password changed successfully. Please login again.",
     };
   }
+
 }
 
 export const authService = new AuthService();

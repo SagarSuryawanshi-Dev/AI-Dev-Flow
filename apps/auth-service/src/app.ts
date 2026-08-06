@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import helmet from "helmet";
+import { errorHandler } from "./middleware/error.middleware";
 import authRoutes from "./routes/auth.routes";
 
 const app = express();
@@ -18,6 +19,7 @@ app.get("/health",(req,res)=> {
 });
 
 app.use("/api/auth/v1", authRoutes);
+app.use(errorHandler);  
 
 
 export default app;
